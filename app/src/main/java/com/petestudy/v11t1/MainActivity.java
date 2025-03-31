@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         temp.sort(Comparator.comparing(Contact::getContactGroup));
-        contacts.clear();
-        contacts.addAll(temp);
-        recyclerView.setAdapter(new ContactAdapter());
+        recyclerView.setAdapter(new ContactAdapter(temp));
     }
 }
