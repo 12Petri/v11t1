@@ -10,6 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
+    private ArrayList<Contact> contacts;
+
+    public ContactAdapter() {
+        this.contacts = ContactStorage.getInstance().getContacts();
+    }
+
+    public  ContactAdapter(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
 
     @NonNull
     @Override
@@ -21,7 +31,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        ArrayList<Contact> contacts = ContactStorage.getInstance().getContacts();
         Contact contact = contacts.get(position);
 
         holder.nameText.setText(contact.getFullName());
@@ -46,6 +55,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
             int currentPosition = holder.getAdapterPosition();
             if (currentPosition != RecyclerView.NO_POSITION) {
                 ContactStorage.getInstance().removeContact(currentPosition);
+                contacts.remove(currentPosition);
                 notifyItemRemoved(currentPosition);
                 notifyItemRangeChanged(currentPosition, getItemCount());
             }
@@ -54,6 +64,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
     @Override
     public int getItemCount() {
-        return  ContactStorage.getInstance().getContacts().size();
+        return  contacts.size();
     }
 }

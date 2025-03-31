@@ -22,12 +22,14 @@ import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.ListContactsRV);
+        recyclerView = findViewById(R.id.ListContactsRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ContactAdapter());
     }
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        RecyclerView recyclerView = findViewById(R.id.ListContactsRV);
         recyclerView.setAdapter(new ContactAdapter());
     }
 
@@ -47,14 +48,19 @@ public class MainActivity extends AppCompatActivity {
     public void sortAlphabetically(View view) {
         ArrayList<Contact> contacts = ContactStorage.getInstance().getContacts();
         contacts.sort((c1, c2) -> c1.getFirstName().compareToIgnoreCase(c2.getFirstName()));
-        RecyclerView recyclerView =  findViewById(R.id.ListContactsRV);
         recyclerView.setAdapter(new ContactAdapter());
     }
 
     public void sortByGroup(View view) {
-        ArrayList<Contact> contacts = ContactStorage.getInstance().getContacts();
-        contacts.sort(Comparator.comparing(Contact::getContactGroup));
-        RecyclerView recyclerView = findViewById(R.id.ListContactsRV);
-        recyclerView.setAdapter(new ContactAdapter());
+        ArrayList<Contact> original = ContactStorage.getInstance().getContacts();
+        ArrayList<Contact> temp = new ArrayList<>();
+
+        Iterator<Contact> iterator = original.iterator();
+        while (iterator.hasNext()) {
+            temp.add(iterator.next());
+        }
+
+        temp.sort(Comparator.comparing(Contact::getContactGroup));
+        recyclerView.setAdapter(new ContactAdapter(temp));
     }
 }
