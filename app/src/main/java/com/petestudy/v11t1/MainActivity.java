@@ -5,18 +5,10 @@ package com.petestudy.v11t1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -28,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ContactStorage.getInstance().getContacts().clear();
 
         recyclerView = findViewById(R.id.ListContactsRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -59,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             temp.add(iterator.next());
         }
 
-        temp.sort(Comparator.comparing(Contact::getContactGroup));
+        temp.sort(Comparator.comparing(Contact::getContactGroup).thenComparing(Contact::getFullName, String.CASE_INSENSITIVE_ORDER));
         contacts.clear();
         contacts.addAll(temp);
 
