@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ContactStorage.getInstance().getContacts().clear();
-
         recyclerView = findViewById(R.id.ListContactsRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ContactAdapter());
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             temp.add(iterator.next());
         }
 
-        temp.sort(Comparator.comparing(Contact::getContactGroup).thenComparing(Contact::getFullName, String.CASE_INSENSITIVE_ORDER));
+        temp.sort(Comparator.comparing(Contact::getContactGroup, Comparator.reverseOrder()).thenComparing(Contact::getFullName, String.CASE_INSENSITIVE_ORDER));
         contacts.clear();
         contacts.addAll(temp);
 
