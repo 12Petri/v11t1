@@ -52,15 +52,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sortByGroup(View view) {
-        ArrayList<Contact> original = ContactStorage.getInstance().getContacts();
+        ArrayList<Contact> contacts = ContactStorage.getInstance().getContacts();
         ArrayList<Contact> temp = new ArrayList<>();
-
-        Iterator<Contact> iterator = original.iterator();
+        Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             temp.add(iterator.next());
         }
 
         temp.sort(Comparator.comparing(Contact::getContactGroup));
-        recyclerView.setAdapter(new ContactAdapter(temp));
+        contacts.clear();
+        contacts.addAll(temp);
+        recyclerView.setAdapter(new ContactAdapter());
     }
 }

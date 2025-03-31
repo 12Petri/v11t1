@@ -55,9 +55,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
             int currentPosition = holder.getAdapterPosition();
             if (currentPosition != RecyclerView.NO_POSITION) {
                 ContactStorage.getInstance().removeContact(currentPosition);
-                contacts.remove(currentPosition);
-                notifyItemRemoved(currentPosition);
-                notifyItemRangeChanged(currentPosition, getItemCount());
+                notifyDataSetChanged();
             }
         });
     }
