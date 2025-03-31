@@ -48,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Contact> temp = new ArrayList<>();
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
-            temp.add(iterator.next());
+            Contact c = iterator.next();
+            if (c.getContactGroup() != null && !c.getContactGroup().isEmpty()) {
+                temp.add(c);
+            }
         }
 
         temp.sort(Comparator.comparing(Contact::getContactGroup, Comparator.reverseOrder()).thenComparing(Contact::getFullName, String.CASE_INSENSITIVE_ORDER));
